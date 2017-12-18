@@ -1,0 +1,109 @@
+<?php 
+//include('proses_Enkrip1.php'); 
+?>
+
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">	
+
+<div id="page-wrapper">
+    <div class="col-lg-12">
+        <p id="error_para" ></p>
+        <h3 class="page-header">New Message<img id="imagestyle" src="img/write.png"></h3>
+    </div>
+    <!-- /.col-lg-12 -->
+    <div class="panel-body">
+        <div class="col-lg-12">             
+            <div class="well well-lg">
+                <form role="form" name="Input File" method="post" action="proses_Login1.php" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <input type="email" class="form-control" id="to" name="to" placeholder="To:"	>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="subject" name="subject"  placeholder="Subject:"  onblur="return validasi()" >
+                    </div>
+                    <div class="form-group">
+                        <textarea name="message" id="message" class="form-control" cols="30" rows="10" ></textarea>
+                        <br>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-info" id="message" name="send">
+                            <i class="glyphicon glyphicon-play"></i>
+                            Send
+                        </button>
+                    </div>
+
+<!--            <table>
+    <tr>
+        <th class="writekey">Pilih File</th>
+        <th class="writekey" colspan="5">
+            <input class="btn btn-default fileinput-upload fileinput-upload-button" name="file" type="file">
+        </th>
+    </tr>
+
+    <tr>
+        <th>&nbsp;</th>
+    </tr>
+
+    <tr>
+        <th class="writekey">Password</th>
+        <th>
+            <input type="password" class="form-input" name="txtpassword" placeholder="Minimal 8 karakter">
+        </th>
+        <th>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </th>
+        <th>
+            <button type="submit" class="btn btn-black" id="message" name="send" role="button">
+                <i class="glyphicon glyphicon-play"></i>
+                Send
+            </button>
+        </th>
+    </tr>
+
+</table>
+                    -->
+
+                </form>
+
+            </div>
+            <!-- /.panel .chat-panel -->
+        </div>
+        <!-- /.col-lg-4 -->
+    </div>
+    <!-- /.row -->
+</div>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="bower_components/summernote/dist/summernote.min.js"></script>
+<script>
+                            $(document).ready(function() {
+                                $('#message').summernote({
+                                    height: 150,
+                                    toolbar: [
+                                        ['style', ['bold', 'italic', 'underline', 'clear']],
+                                        ['undo', ['undo']],
+                                        ['redo', ['redo']],
+                                        ['fontsize', ['fontsize']],
+                                        ['color', ['color']],
+                                        ['para', ['ul', 'ol', 'paragraph']],
+                                        ['height', ['height']]
+                                    ]
+                                });
+                            });
+</script>
+</body>
+</html>
+
+

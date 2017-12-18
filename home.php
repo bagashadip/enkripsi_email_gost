@@ -1,0 +1,227 @@
+<?php
+include ('proses_Login1.php');
+
+
+    if (!isset($_SESSION['access_token'])) {
+        header("location: index.php");
+    }
+?>
+
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>RTV-Mail</title>
+
+    <link href="bootstrap/css/bootstrap-theme-united.min.css" rel="stylesheet">
+    <link href="css/dashboard.css" rel="stylesheet">
+    <link href="css/starter-template.css" rel="stylesheet">
+    <link href="css/fileinput.css" media="all" rel="stylesheet" type="text/css" />
+    <link href="css/style.css" rel="stylesheet">
+
+    <!--    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">-->
+    <style>
+        iframe {
+            width: 100%;
+            border: 0;
+            min-height: 80%;
+            height: 600px;
+            display: flex;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button class="navbar-toggle collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="<?php echo $_SERVER['PHP_SELF']; ?>"><h3>RTV-Mail</h3></a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <?php #if (isset($_SESSION['access_token'])) {?>
+                    <li><a href="?logout" class="size"><img style="margin-right: 10px; margin-top: -2px;" src="img/logout.png" width="25" height="25">Logout</a></li>
+
+                    <?php #} else { ?>
+
+                    <?php #}?>
+                </ul>
+
+            </div><!--/.nav-collapse -->
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="col-sm-2 col-md-2 sidebar">
+                <ul class="nav" id="side-menu">
+                    <!--   <li>
+                            <a href="#compose-modal" data-toggle="modal" id="compose-button" class="linkweb">
+                                <img style="margin-right: 10%;" src="img/write.png" width="30" height="30">Compose 1</a>
+                        </li> !-->
+                    <li>
+                        <a class="linkweb" href="compose.php"><img style="margin-right: 10%;" src="img/write.png" width="30" height="30">  Compose </a>
+                    </li>
+                    <li>
+                        <a class="linkweb" href="inbox.php"><img style="margin-right: 10%;" src="img/inbox.png" width="30" height="30"></i>  Inbox</a>
+                    </li>
+                    <li>
+                        <a class="linkweb" href="sent.php"><img style="margin-right: 10%;" src="img/send.png" width="30" height="30">  Sent Mail</a>
+                    </li>
+                    <li>
+                        <a class="linkweb" href="dekrip.php"><img style="margin-right: 10%;" src="img/file-dec.png" width="30" height="30">  Dekripsi</a>
+                    </li>
+                    <li>
+                        <a class="linkweb" href="help.php"><img style="margin-right: 10%;" src="img/help.png" width="30" height="30">  Help</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--
+    <div class="modal fade" id="compose-modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Compose</h4>
+                </div>
+                <form onsubmit="return sendEmail();">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input type="email" class="form-control" id="compose-to" placeholder="To" required />
+                        </div>
+
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="compose-subject" placeholder="Subject" required maxlength="32" />
+                        </div>
+
+                        <div class="form-group">
+                            <textarea class="form-control" id="compose-message" placeholder="Message" rows="10" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for='uploaded_file'>Select A File To Upload:</label>
+                            <input type="file" name="uploaded_file">
+                        </div>
+                        <div class="writekey">Password
+                            <input type="password" class="form-input" name="txtpassword" placeholder="Minimal ... karakter">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" id="send-button" class="btn btn-primary">Send</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="reply-modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Reply</h4>
+                </div>
+                <form onsubmit="return sendReply();">
+                    <input type="hidden" id="reply-message-id" />
+
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="reply-to" disabled />
+                        </div>
+
+                        <div class="form-group">
+                            <input type="text" class="form-control disabled" id="reply-subject" disabled />
+                        </div>
+
+                        <div class="form-group">
+                            <textarea class="form-control" id="reply-message" placeholder="Message" rows="10" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for='uploaded_file'>Select A File To Upload:</label>
+                            <input type="file" name="uploaded_file">
+                        </div>
+                        <div class="writekey">Password
+                            <input type="password" class="form-input" name="txtpassword" placeholder="Minimal ... karakter">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" id="reply-button" class="btn btn-primary">Send</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    !-->
+
+    <?php
+    /* if ($_GET['page'] == 'compose') {
+      include 'compose.php';
+      } else if ($_GET['page'] == 'inbox') {
+      include 'inbox.php';
+      } else if ($_GET['page'] == 'sent_mail') {
+      include 'sent.php';
+      } else if ($_GET['page'] == 'help') {
+      include 'help.php';
+      } else if ($_GET['page'] == 'about') {
+      include 'about.php';
+      } else if ($_GET['page'] == 'dekrip') {
+      include 'dekrip.php';
+      } else if ($_GET['page'] == 'home') {
+      include 'firstlayout.php';
+      } else {
+      include 'firstlayout.php';
+      } */
+    ?>
+
+    <div id="page-wrapper">
+        <div class="col-lg-12">
+            <h3 class="page-header"></h3>
+        </div>		
+        <!-- /.row -->
+
+        <div class="panel-body">
+            <div class="col-lg-12">             
+                <div class="well well-lg">
+                    <table>
+                        <p>
+                        <h1><center>Selamat Datang di 
+                                RTV-Mail</center>
+                        </h1><br>
+                        <p><h3>RTV-Mail merupakan aplikasi email sekaligus aplikasi kriptografi yang memudahkan pengguna untuk bertukar informasi dengan aman.
+                            Enkstensi format file yang dapat di enkripsi yaitu berupa format PDF, DOC dan DOCX.</h3></p>
+                        <br></br><br>
+                    </table>
+                </div>								            
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- jQuery -->
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
